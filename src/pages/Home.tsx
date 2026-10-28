@@ -2,6 +2,8 @@ import { Link } from '../App'
 import Social from '../components/Social'
 import TechMarquee from '../components/TechMarquee'
 import { DownloadIcon } from '../components/Icons'
+import { copyEmail } from '../components/MailMenu'
+import { useState } from 'react'
 import { demos, jobs, profile, projects, skills, stats } from '../data/profile'
 import { useT, useTr } from '../i18n'
 
@@ -172,12 +174,30 @@ export default function Home() {
             )}</p>
           </div>
           <div className="links">
-            <div className="mail"><a href={`mailto:${profile.email}`}>{profile.email}</a></div>
+            <ContactMail />
             <a className="btn primary" href={profile.cv} download><DownloadIcon />{t('Télécharger mon CV', 'Download CV')}<span className="sr-only"> (PDF)</span></a>
             <Social className="on-dark" />
           </div>
         </section>
       </div>
     </>
+  )
+}
+
+/** Adresse e-mail visible et sélectionnable, avec copie et ouverture dans Gmail. */
+function ContactMail() {
+  const t = useT()
+  const [copied, setCopied] = useState(false)
+  return (
+    <div className="mail">
+      <span className="mail-addr">{profile.email}</span>
+      <button type="button" className="mail-btn" onClick={async () => { setCopied(await copyEmail()); setTimeout(() => setCopied(false), 2500) }}>
+        {copied ? t('Copiée ✓', 'Copied ✓') : t('Copier', 'Copy')}
+      </button>
+      <a className="mail-btn" href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(profile.email)}`} target="_blank" rel="noopener noreferrer">
+        Gmail<span className="sr-only">{t(' : écrire un e-mail (nouvel onglet)', ': write an email (new tab)')}</span> ↗
+      </a>
+      <span className="sr-only" role="status">{copied ? t('Adresse copiée', 'Address copied') : ''}</span>
+    </div>
   )
 }

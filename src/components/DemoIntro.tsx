@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from '../App'
+import { goBack } from '../App'
 import { profile } from '../data/profile'
 import { useT } from '../i18n'
 
@@ -13,7 +13,7 @@ export default function DemoIntro({ kicker, title, lead, problem, tryIt, under, 
     <>
       <div className="page-head">
         <div className="wrap">
-          <Link to="/#demos" className="back">← {t('Toutes les démos', 'All demos')}</Link>
+          <a href="/#demos" className="back" onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); goBack() }}>← {t('Retour', 'Back')}</a>
           <p className="eyebrow">{kicker}</p>
           <h1>{title}</h1>
           <p>{lead}</p>

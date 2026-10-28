@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
 import Home from './pages/Home'
 import ComponentsDemo from './pages/ComponentsDemo'
 import Gallery from './pages/Gallery'
@@ -27,11 +27,41 @@ export function Link({ to, children, className, ...rest }: { to: string; childre
   return <a href={to} onClick={onClick} className={className} {...rest}>{children}</a>
 }
 
+/** Fait défiler jusqu'à une section ; réessaie le temps que la page soit rendue. */
+export function scrollToId(id: string, tries = 12) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ block: 'start' })
+    // RGAA 12.7 : le focus suit la section atteinte (lecteurs d'écran, clavier)
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1')
+    el.focus({ preventScroll: true })
+  } else if (tries > 0) requestAnimationFrame(() => scrollToId(id, tries - 1))
+}
+
+/**
+ * Navigation interne.
+ * - même page + ancre : défilement direct vers la section ;
+ * - autre page : on mémorise la position actuelle dans l'historique,
+ *   pour que « Retour » (bouton du site ou du navigateur) ramène exactement au même endroit.
+ */
 export function navigate(to: string) {
-  const [path, hash] = to.split('#')
-  if (path && path !== location.pathname) history.pushState({}, '', to)
-  else if (hash) history.replaceState({}, '', to)
+  const [rawPath, hash] = to.split('#')
+  const path = rawPath || location.pathname
+  if (path === location.pathname) {
+    history.replaceState(history.state, '', hash ? `${path}#${hash}` : path)
+    if (hash) scrollToId(hash)
+    else window.scrollTo({ top: 0 })
+    return
+  }
+  history.replaceState({ ...(history.state ?? {}), scrollY: window.scrollY }, '')
+  history.pushState({ from: location.pathname }, '', to)
   window.dispatchEvent(new Event('locationchange'))
+}
+
+/** Retour : revient à la page précédente du site si possible, sinon à la section Démos. */
+export function goBack() {
+  if (history.state?.from) history.back()
+  else navigate('/#demos')
 }
 
 type Theme = 'light' | 'dark'
@@ -56,11 +86,18 @@ export default function App() {
   const { lang, setLang } = useLang()
   const t = useT()
 
+  const restoreY = useRef<number | null>(null)
+
   useEffect(() => {
-    const sync = () => setPath(location.pathname)
-    window.addEventListener('popstate', sync)
-    window.addEventListener('locationchange', sync)
-    return () => { window.removeEventListener('popstate', sync); window.removeEventListener('locationchange', sync) }
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+    const onPop = (e: PopStateEvent) => {
+      restoreY.current = typeof e.state?.scrollY === 'number' ? e.state.scrollY : null
+      setPath(location.pathname)
+    }
+    const onNav = () => { restoreY.current = null; setPath(location.pathname) }
+    window.addEventListener('popstate', onPop)
+    window.addEventListener('locationchange', onNav)
+    return () => { window.removeEventListener('popstate', onPop); window.removeEventListener('locationchange', onNav) }
   }, [])
 
   const route = routes[path] ?? routes['/']
@@ -68,11 +105,16 @@ export default function App() {
 
   useEffect(() => { document.title = title }, [title])
   useEffect(() => {
+    const y = restoreY.current
+    restoreY.current = null
     const hash = location.hash.slice(1)
-    if (hash) requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView())
-    else window.scrollTo(0, 0)
-    // RGAA 12 : après un changement de page, le focus revient au contenu principal
-    document.getElementById('main')?.focus({ preventScroll: true })
+    document.getElementById('main')?.focus({ preventScroll: true }) // RGAA 12 : focus sur le contenu après changement de page
+    if (y !== null) {
+      // Retour arrière : on revient exactement à la position précédente (réappliquée le temps que les images se chargent)
+      const apply = () => window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior })
+      requestAnimationFrame(apply); setTimeout(apply, 120); setTimeout(apply, 400)
+    } else if (hash) scrollToId(hash)
+    else window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [path])
 
   return (

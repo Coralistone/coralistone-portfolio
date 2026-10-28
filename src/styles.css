@@ -20,6 +20,7 @@
     color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 18px; line-height: 1.6; }
@@ -255,3 +256,22 @@ kbd { font-family: var(--mono); font-size: 13px; color: var(--fg); border: 1px s
 .site-footer strong { color: var(--fg); }
 .site-footer .fine { font-size: 14px; }
 .heart { color: #e11d48; }
+
+/* Ancres : la section n'est pas masquée par l'en-tête collant */
+main [id] { scroll-margin-top: 84px; }
+main section[id]:focus { outline: none; }
+
+/* ---- Menu e-mail ---- */
+.mail-menu { position: relative; }
+.mail-menu > button { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; color: var(--fg); border: 1px solid var(--line); background: var(--surface); cursor: pointer; }
+.social.on-dark .mail-menu > button { color: var(--hero-fg); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); }
+.mail-menu > button:hover, .mail-menu > button[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); }
+.mail-pop { position: absolute; z-index: 40; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(320px, 86vw);
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.25); display: grid; gap: 8px; text-align: left; }
+.hero .mail-pop { top: calc(100% + 10px); bottom: auto; left: 0; transform: none; }
+.mail-pop p { margin: 0 0 4px; font-family: var(--mono); font-size: 14px; word-break: break-all; }
+.mail-pop a, .mail-pop button { font: 600 15px var(--body); text-align: left; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); text-decoration: none; cursor: pointer; }
+.mail-pop a:hover, .mail-pop button:hover { border-color: var(--accent); color: var(--accent); }
+.mail-copied { color: var(--ok); font-size: 14px; font-weight: 600; margin: 0; }
+.mail-addr { color: var(--hero-fg); font-family: var(--mono); font-size: 16px; word-break: break-all; user-select: all; flex: 1 1 200px; }
+.mail-btn { font: 600 14px var(--body); color: var(--hero-accent); background: transparent; border: 1px solid rgba(56,189,248,.5); border-radius: 6px; padding: 4px 10px; cursor: pointer; text-decoration: none; }
