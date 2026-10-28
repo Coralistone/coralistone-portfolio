@@ -274,7 +274,7 @@ export default function Gallery() {
   return (
     <>
       <DemoIntro
-        kicker={t('Démo 2 · Médiathèque DAM', 'Demo 2 · DAM media library')}
+        kicker={t('Démo 1 · Médiathèque DAM', 'Demo 1 · DAM media library')}
         title={t('Médiathèque de 1 788 médias', 'A 1,788-item media library')}
         lead={t(
           "Une médiathèque dans l'esprit d'un DAM (gestion de médias) : recherche, filtres, tri, 3 types de vue, pagination, sélection multiple et actions sur les médias.",

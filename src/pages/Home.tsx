@@ -119,8 +119,8 @@ export default function Home() {
         <section className="block" id="demos" aria-labelledby="demos-h">
           <div className="sec-head"><span className="tag" aria-hidden="true">04</span><h2 id="demos-h">{t('Démos en ligne', 'Live demos')}</h2></div>
           <p className="sec-lead">{t(
-            "Quatre démos à tester directement dans le navigateur. Chacune explique le besoin, ce qu'il faut tester et comment elle est construite.",
-            'Four demos you can try right in your browser. Each one explains the need, what to try and how it is built.',
+            "Trois démos à tester directement dans le navigateur. Chacune explique le besoin, ce qu'il faut tester et comment elle est construite.",
+            'Three demos you can try right in your browser. Each one explains the need, what to try and how it is built.',
           )}</p>
           <div className="showcase">
             {demos.map((d, i) => (

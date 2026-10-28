@@ -84,17 +84,6 @@ export const jobs: Job[] = [
 export type Demo = { path: string; image: string; kicker: L; title: L; text: L; points: L[]; tags: string[] }
 export const demos: Demo[] = [
   {
-    path: '/composants', image: '/previews/composants.jpg', kicker: { fr: 'Design system accessible', en: 'Accessible design system' },
-    title: { fr: 'Kit de composants React accessibles', en: 'Accessible React component kit' },
-    text: { fr: "Modale, onglets, menu et formulaire construits selon les motifs ARIA de référence : utilisables au clavier, au lecteur d'écran et en zoom.", en: 'Dialog, tabs, menu and form built on the reference ARIA patterns: usable with a keyboard, a screen reader and zoom.' },
-    points: [
-      { fr: 'Focus piégé et restitué dans la modale', en: 'Focus trapped and restored in the dialog' },
-      { fr: 'Erreurs de formulaire reliées et annoncées', en: 'Form errors linked and announced' },
-      { fr: 'Critères RGAA cités dans le code', en: 'RGAA criteria referenced in the code' },
-    ],
-    tags: ['React', 'TypeScript', 'ARIA', 'RGAA'],
-  },
-  {
     path: '/galerie', image: '/previews/galerie.jpg', kicker: { fr: 'Médiathèque DAM', en: 'DAM media library' },
     title: { fr: 'Médiathèque de 1 788 médias', en: '1,788-item media library' },
     text: { fr: "Recherche, filtres, tri, vues grille / liste / mosaïque, pagination (10 à 100 par page), sélection multiple et actions : télécharger, panier, partager, recadrer, supprimer.", en: 'Search, filters, sorting, grid / list / mosaic views, pagination (10 to 100 per page), multi-select and actions: download, basket, share, crop, delete.' },

@@ -6,8 +6,7 @@ Portfolio et démos de **Coralistone Mikam**, Product Engineer Frontend React sp
 
 | Démo | Ce qu'elle montre |
 |---|---|
-| `/composants` | Kit de composants React accessibles : modale (focus piégé, inert), onglets (roving tabindex), menu d'actions, formulaire avec validation accessible |
-| `/galerie` | Galerie de 2 000 médias virtualisée, navigable au clavier, filtres et visionneuse, annonces pour lecteur d'écran |
+| `/galerie` | Médiathèque DAM de 1 788 médias : recherche, filtres, tri, vues grille / liste / mosaïque, pagination, sélection et actions (ZIP, panier, partage, recadrage, suppression) |
 | `/billet` | Recréation de Zeeven : billets d'invitation à QR code nominatif, gestion des tables et des VIP, accueil des invités |
 | `/carte` | Recréation du travail FindMe : carte SVG d'adresses numériques + back-office (recherche, filtres, validation). Données fictives |
 | `/food` | Clone Uber Eats : restaurants, filtres, menu, panier, commande et suivi de livraison |

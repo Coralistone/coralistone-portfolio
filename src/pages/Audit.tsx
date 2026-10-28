@@ -84,7 +84,7 @@ export default function Audit() {
   return (
     <>
       <DemoIntro
-        kicker={t('Démo 4 · Outil qualité', 'Demo 4 · Quality tool')}
+        kicker={t('Démo 3 · Outil qualité', 'Demo 3 · Quality tool')}
         title={t("Audit d'accessibilité", 'Accessibility audit')}
         lead={t(
           "Un moteur qui analyse une page et liste les erreurs d'accessibilité, avec la référence RGAA et WCAG de chacune. Le même moteur tourne dans une extension Chrome.",

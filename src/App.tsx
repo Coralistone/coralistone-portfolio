@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
 import Home from './pages/Home'
-import ComponentsDemo from './pages/ComponentsDemo'
 import Gallery from './pages/Gallery'
 import Audit from './pages/Audit'
 import Billet from './pages/Billet'
@@ -14,7 +13,6 @@ import { useLang, useT } from './i18n'
 
 const routes: Record<string, { el: () => ReactNode; title: [string, string] }> = {
   '/': { el: () => <Home />, title: [`${profile.name} · ${profile.title}`, `${profile.name} · ${profile.title}`] },
-  '/composants': { el: () => <ComponentsDemo />, title: ['Composants accessibles', 'Accessible components'] },
   '/galerie': { el: () => <Gallery />, title: ['Galerie de médias accessible', 'Accessible media gallery'] },
   '/audit': { el: () => <Audit />, title: ["Audit d'accessibilité", 'Accessibility audit'] },
   '/billet': { el: () => <Billet />, title: ['Zeeven, billets à QR code', 'Zeeven, QR-code tickets'] },

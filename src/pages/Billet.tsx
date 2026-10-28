@@ -73,7 +73,7 @@ export default function Billet() {
   return (
     <>
       <DemoIntro
-        kicker={t('Démo 3 · Projet Chillo Tech recréé', 'Demo 3 · Chillo Tech project, rebuilt')}
+        kicker={t('Démo 2 · Projet Chillo Tech recréé', 'Demo 2 · Chillo Tech project, rebuilt')}
         title={t('Zeeven, billetterie événementielle', 'Zeeven, event ticketing')}
         lead={t(
           "Recréation de Zeeven, le projet développé chez Chillo Tech : des billets nominatifs à QR code, envoyés par WhatsApp à chaque invité, et un tableau d'accueil pour contrôler les entrées.",
