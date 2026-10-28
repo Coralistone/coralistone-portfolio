@@ -1,0 +1,25 @@
+.ax-btn { font: 600 16px var(--body); padding: 10px 18px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.ax-btn.secondary { background: var(--surface); color: var(--accent); }
+.ax-icon-btn { border: 1px solid var(--line); background: var(--surface); color: var(--fg); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; font-size: 16px; }
+
+.ax-backdrop { position: fixed; inset: 0; background: rgba(5, 12, 26, .62); display: grid; place-items: center; padding: 16px; z-index: 100; }
+.ax-dialog { background: var(--surface); color: var(--fg); border-radius: 14px; width: min(520px, 100%); max-height: 90vh; overflow: auto; padding: 24px; box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+.ax-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.ax-dialog-head h2 { margin: 0; font-family: var(--display); font-size: 22px; }
+
+.ax-tabs [role="tablist"] { display: flex; gap: 4px; border-bottom: 2px solid var(--line); flex-wrap: wrap; }
+.ax-tabs [role="tab"] { font: 600 16px var(--body); background: none; border: 0; padding: 10px 16px; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.ax-tabs [role="tab"][aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.ax-tabs [role="tabpanel"] { padding: 16px 4px 4px; }
+
+.ax-menu { position: relative; display: inline-block; }
+.ax-menu [role="menu"] { position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px; margin: 0; padding: 6px; list-style: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.18); z-index: 10; }
+.ax-menu [role="menuitem"] { padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.ax-menu [role="menuitem"]:hover, .ax-menu [role="menuitem"]:focus { background: var(--accent-soft); outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+
+.ax-field { display: grid; gap: 4px; margin-bottom: 16px; }
+.ax-field label { font-weight: 600; }
+.ax-field input { font: 16px var(--body); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--muted); background: var(--surface); color: var(--fg); }
+.ax-field input[aria-invalid="true"] { border: 2px solid var(--danger); }
+.ax-hint { margin: 0; color: var(--muted); font-size: 15px; }
+.ax-error { margin: 0; color: var(--danger); font-size: 15px; font-weight: 600; }

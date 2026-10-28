@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Audit RGAA express</title>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; width: 380px; margin: 0; color: #0c1a33; background: #f5f8fc; }
+    header { background: #0b1730; color: #f1f6ff; padding: 14px 16px; }
+    h1 { font-size: 16px; margin: 0; }
+    main { padding: 12px 16px 16px; }
+    .score { font-size: 32px; font-weight: 800; }
+    ol { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+    li { background: #fff; border: 1px solid #d9e2ee; border-left: 4px solid #b42318; border-radius: 8px; padding: 8px 10px; }
+    li.avertissement { border-left-color: #93370d; }
+    small { color: #46566f; font-family: ui-monospace, monospace; }
+    button { font: 600 14px system-ui; background: #0369a1; color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+    :focus-visible { outline: 3px solid #38bdf8; outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header><h1>Audit RGAA express</h1></header>
+  <main>
+    <button id="run" type="button">Analyser l'onglet actif</button>
+    <div id="out" role="status" aria-live="polite"></div>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
