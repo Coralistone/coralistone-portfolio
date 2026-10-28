@@ -409,3 +409,28 @@ main section[id]:focus { outline: none; }
 .nav a.active { color: #ffffff; font-weight: 700; position: relative; text-shadow: 0 0 12px rgba(56,189,248,.55); }
 .nav a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px; border-radius: 3px; background: var(--hero-accent); box-shadow: 0 0 10px rgba(56,189,248,.8); }
 .nav a { transition: color .2s; }
+
+/* ---- Ludo : pions arrivés, victoire, minuteur, invitations ---- */
+.pawn.home { display: grid; place-items: center; transform: translate(-50%, -50%); z-index: 4; }
+.pawn.home b { position: absolute; top: -9px; right: -9px; min-width: 20px; height: 20px; border-radius: 10px; background: #0b1730; color: #fff; font: 800 12px var(--body); display: grid; place-items: center; border: 2px solid #fff; }
+.win-overlay { position: absolute; inset: 0; z-index: 10; display: grid; place-content: center; text-align: center; background: rgba(11,23,48,.84); backdrop-filter: blur(2px); overflow: hidden; }
+.win-big { margin: 0; font: 900 clamp(64px, 16vw, 150px)/1 var(--display); letter-spacing: .06em; color: #fff; animation: winpop .6s cubic-bezier(.2,1.6,.4,1) both; }
+.win-name { margin: 10px 0 0; color: #fff; font: 800 clamp(20px, 3.5vw, 32px) var(--display); }
+@keyframes winpop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.confetti span { position: absolute; top: -10%; font-size: clamp(20px, 3vw, 32px); animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(120vh) rotate(540deg); } }
+@media (prefers-reduced-motion: reduce) { .confetti span { animation: none; top: auto; bottom: 8%; } .win-big { animation: none; } }
+.timer { position: relative; width: 100%; height: 22px; border-radius: 11px; background: var(--line); overflow: hidden; }
+.timer span { position: absolute; inset: 0 auto 0 0; background: var(--ok); transition: width .25s linear; }
+.timer.low span { background: var(--danger); }
+.timer b { position: relative; display: block; text-align: center; font: 700 13px/22px var(--mono); color: var(--fg); }
+.seg.wide { flex-wrap: wrap; }
+.invites { display: grid; gap: 12px; margin-top: 8px; }
+.invite { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 8px; }
+.invite p { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.invite input { width: 100%; font: 13px var(--mono); padding: 8px; border-radius: 8px; border: 1px solid var(--muted); background: var(--bg); color: var(--fg); }
+.invite-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.invite-btns .ax-btn { padding: 6px 12px; font-size: 14px; text-decoration: none; }
+.st-on { color: var(--ok); font-weight: 700; font-size: 14px; }
+.st-off { color: var(--muted); font-size: 14px; }
+details.card summary { cursor: pointer; }

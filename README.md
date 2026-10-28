@@ -11,7 +11,7 @@ Portfolio et démos de **Coralistone Mikam**, Product Engineer Frontend React sp
 | `/billet` | Recréation de Zeeven : billets d'invitation à QR code nominatif, gestion des tables et des VIP, accueil des invités |
 | `/carte` | Recréation du travail FindMe : carte SVG d'adresses numériques + back-office (recherche, filtres, validation). Données fictives |
 | `/food` | Clone Uber Eats : restaurants, filtres, menu, panier, commande et suivi de livraison |
-| `/ludo` | Ludo de 2 à 4 joueurs (amis ou ordinateur) : configuration, règles, dé animé, sortie sur un 6, captures, cases protégées, IA |
+| `/ludo` | Ludo de 2 à 4 joueurs : contre l'ordinateur, entre amis sur le même appareil, ou **en ligne** (WebRTC / PeerJS) avec liens d'invitation, mode spectateur et 15 s par action |
 | `/audit` | Moteur d'audit RGAA automatisé (contrastes, alternatives, titres, étiquettes, liens, boutons), analyse d'un site par son URL (fonction serverless) + extension Chrome |
 
 ## Stack

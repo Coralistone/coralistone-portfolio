@@ -150,6 +150,6 @@ export const projects: Project[] = [
     text: { fr: 'Catalogue de restaurants, panier, commande et suivi de livraison.', en: 'Restaurant catalogue, cart, ordering and delivery tracking.' }, tags: ['React', 'TypeScript', 'Web app'], image: '/previews/food.jpg',
     demo: '/food', note: { fr: 'Code d’origine non publié · démo recréée', en: 'Original code not published · rebuilt demo' } },
   { status: { fr: 'jeu', en: 'game' }, title: { fr: 'Ludo', en: 'Ludo' }, icon: '🎲', hue: 330,
-    text: { fr: 'Le jeu de plateau à 4 couleurs, de 2 à 4 joueurs, entre amis ou contre l’ordinateur : dé animé, sortie sur un 6, captures, cases protégées.', en: 'The 4-colour board game for 2 to 4 players, with friends or against the computer: animated dice, leave home on a 6, captures, safe squares.' }, tags: ['React', 'TypeScript', 'Game'], image: '/previews/ludo.jpg',
+    text: { fr: 'Le jeu de plateau à 4 couleurs, de 2 à 4 joueurs : contre l’ordinateur, sur le même appareil, ou en ligne avec des liens d’invitation et 15 s par action.', en: 'The 4-colour board game for 2 to 4 players: against the computer, on one device, or online with invitation links and 15 s per action.' }, tags: ['React', 'TypeScript', 'WebRTC'], image: '/previews/ludo.jpg',
     demo: '/ludo', note: { fr: 'Code d’origine non publié · démo recréée', en: 'Original code not published · rebuilt demo' } },
 ]
