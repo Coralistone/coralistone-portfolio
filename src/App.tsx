@@ -4,6 +4,9 @@ import ComponentsDemo from './pages/ComponentsDemo'
 import Gallery from './pages/Gallery'
 import Audit from './pages/Audit'
 import Billet from './pages/Billet'
+import Food from './pages/Food'
+import Ludo from './pages/Ludo'
+import Carte from './pages/Carte'
 import Social from './components/Social'
 import { MoonIcon, SunIcon } from './components/Icons'
 import { profile } from './data/profile'
@@ -15,6 +18,10 @@ const routes: Record<string, { el: () => ReactNode; title: [string, string] }> =
   '/galerie': { el: () => <Gallery />, title: ['Galerie de médias accessible', 'Accessible media gallery'] },
   '/audit': { el: () => <Audit />, title: ["Audit d'accessibilité", 'Accessibility audit'] },
   '/billet': { el: () => <Billet />, title: ['Zeeven, billets à QR code', 'Zeeven, QR-code tickets'] },
+  '/food': { el: () => <Food />, title: ['Clone Uber Eats', 'Uber Eats clone'] },
+  '/ludo': { el: () => <Ludo />, title: ['Ludo', 'Ludo'] },
+  '/dames': { el: () => <Ludo />, title: ['Ludo', 'Ludo'] },
+  '/carte': { el: () => <Carte />, title: ["Cartographie d'adressage", 'Address mapping'] },
 }
 
 /** Lien interne : navigation sans rechargement, gère aussi les ancres (/#about). */
@@ -64,6 +71,39 @@ export function goBack() {
   else navigate('/#demos')
 }
 
+/** Navigation principale, dans l'ordre des sections de la page d'accueil */
+const NAV: [string, string, string, boolean][] = [
+  ['about', 'À propos', 'About', true],
+  ['experience', 'Expérience', 'Experience', true],
+  ['projects', 'Projets', 'Projects', true],
+  ['demos', 'Démos', 'Demos', false],
+  ['contact', 'Contact', 'Contact', false],
+]
+
+/** Section visible à l'écran (scroll-spy) : la dernière dont le haut a dépassé l'en-tête. */
+function useActiveSection(path: string) {
+  const [active, setActive] = useState('')
+  useEffect(() => {
+    if (path !== '/') { setActive('demos'); return }
+    const ids = NAV.map(([id]) => id)
+    const onScroll = () => {
+      let cur = ''
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= 140) cur = id
+      }
+      // en bas de page, la dernière section (Contact) devient active
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = ids[ids.length - 1]
+      setActive(cur)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll) }
+  }, [path])
+  return active
+}
+
 type Theme = 'light' | 'dark'
 function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -83,6 +123,7 @@ function useTheme() {
 export default function App() {
   const [path, setPath] = useState(location.pathname)
   const [theme, setTheme] = useTheme()
+  const active = useActiveSection(path)
   const { lang, setLang } = useLang()
   const t = useT()
 
@@ -125,11 +166,11 @@ export default function App() {
           <Link to="/" className="logo" aria-label={t('Accueil', 'Home')}>&lt;CM <span>/</span>&gt;</Link>
           <nav aria-label={t('Navigation principale', 'Main navigation')}>
             <ul>
-              <li className="opt"><Link to="/#about">{t('À propos', 'About')}</Link></li>
-              <li><Link to="/#demos" aria-current={path !== '/' ? 'page' : undefined}>{t('Démos', 'Demos')}</Link></li>
-              <li className="opt"><Link to="/#experience">{t('Expérience', 'Experience')}</Link></li>
-              <li className="opt"><Link to="/#projects">{t('Projets', 'Projects')}</Link></li>
-              <li><Link to="/#contact">Contact</Link></li>
+              {NAV.map(([id, fr, en, opt]) => (
+                <li key={id} className={opt ? 'opt' : undefined}>
+                  <Link to={`/#${id}`} className={active === id ? 'active' : undefined} aria-current={active === id ? (path === '/' ? 'location' : 'page') : undefined}>{t(fr, en)}</Link>
+                </li>
+              ))}
             </ul>
           </nav>
           <div className="toolbar">

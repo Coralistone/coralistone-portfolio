@@ -1,4 +1,4 @@
-import { Link } from '../App'
+import { Link, navigate } from '../App'
 import Social from '../components/Social'
 import TechMarquee from '../components/TechMarquee'
 import { DownloadIcon } from '../components/Icons'
@@ -77,8 +77,47 @@ export default function Home() {
           </ul>
         </section>
 
+        <section className="block" id="experience" aria-labelledby="exp-h">
+          <div className="sec-head"><span className="tag" aria-hidden="true">02</span><h2 id="exp-h">{t('Expérience', 'Experience')}</h2></div>
+          <ol className="log">
+            {jobs.map((j) => (
+              <li className={`rel${j.current ? ' current' : ''}`} key={j.org}>
+                <article className="card">
+                  <div className="rel-top"><h3>{tr(j.role)} <span className="org">· {j.org}</span></h3><span className="rel-when"><time>{tr(j.when)}</time></span></div>
+                  <p className="ctx">{tr(j.ctx)}</p>
+                  <ul>{j.points.map((p) => <li key={p.text.fr}>{p.win && <span className="win">{tr(p.win)}</span>}{tr(p.text)}</li>)}</ul>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="block" id="projects" aria-labelledby="proj-h">
+          <div className="sec-head"><span className="tag" aria-hidden="true">03</span><h2 id="proj-h">{t('Projets', 'Projects')}</h2></div>
+          <div className="grid projects">
+            {projects.map((p) => (
+              <article className="card proj" key={p.title.fr}>
+                <div className="proj-cover" aria-hidden="true" style={{ ['--h' as string]: p.hue }} onClick={() => p.demo && navigate(p.demo)} data-clickable={p.demo ? '' : undefined}>
+                  {p.image ? <img src={p.image} alt="" loading="lazy" /> : <span>{p.icon}</span>}
+                </div>
+                <span className="status">{tr(p.status)}</span>
+                <h3>{tr(p.title)}</h3>
+                <p>{tr(p.text)}</p>
+                <ul className="tags" aria-label="Technologies">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
+                {p.note && <p className="proj-note"><span aria-hidden="true">🔒 </span>{tr(p.note)}</p>}
+                {(p.demo || p.repo) && (
+                  <div className="links">
+                    {p.demo && <Link to={p.demo} className="btn solid">{t('Voir la démo', 'View demo')}<span className="sr-only"> : {tr(p.title)}</span></Link>}
+                    {p.repo && <a className="btn line" href={p.repo} target="_blank" rel="noopener noreferrer">{t('Code sur GitHub', 'Code on GitHub')}<span className="sr-only"> : {tr(p.title)}{nw}</span></a>}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="block" id="demos" aria-labelledby="demos-h">
-          <div className="sec-head"><span className="tag" aria-hidden="true">02</span><h2 id="demos-h">{t('Démos en ligne', 'Live demos')}</h2></div>
+          <div className="sec-head"><span className="tag" aria-hidden="true">04</span><h2 id="demos-h">{t('Démos en ligne', 'Live demos')}</h2></div>
           <p className="sec-lead">{t(
             "Quatre démos à tester directement dans le navigateur. Chacune explique le besoin, ce qu'il faut tester et comment elle est construite.",
             'Four demos you can try right in your browser. Each one explains the need, what to try and how it is built.',
@@ -107,51 +146,13 @@ export default function Home() {
         </section>
 
         <section className="block" id="skills" aria-labelledby="skills-h">
-          <div className="sec-head"><span className="tag" aria-hidden="true">03</span><h2 id="skills-h">{t('Compétences', 'Skills')}</h2></div>
+          <div className="sec-head"><span className="tag" aria-hidden="true">05</span><h2 id="skills-h">{t('Compétences', 'Skills')}</h2></div>
           <div className="grid">
             {skills.map((s) => (
               <div className="card" key={s.group.fr}>
                 <h3 className="kicker">{tr(s.group)}</h3>
                 <ul className="tags">{s.items.map((i) => <li key={i}>{i}</li>)}</ul>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="block" id="experience" aria-labelledby="exp-h">
-          <div className="sec-head"><span className="tag" aria-hidden="true">04</span><h2 id="exp-h">{t('Expérience', 'Experience')}</h2></div>
-          <ol className="log">
-            {jobs.map((j) => (
-              <li className={`rel${j.current ? ' current' : ''}`} key={j.org}>
-                <article className="card">
-                  <div className="rel-top"><h3>{tr(j.role)} <span className="org">· {j.org}</span></h3><span className="rel-when"><time>{tr(j.when)}</time></span></div>
-                  <p className="ctx">{tr(j.ctx)}</p>
-                  <ul>{j.points.map((p) => <li key={p.text.fr}>{p.win && <span className="win">{tr(p.win)}</span>}{tr(p.text)}</li>)}</ul>
-                </article>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <section className="block" id="projects" aria-labelledby="proj-h">
-          <div className="sec-head"><span className="tag" aria-hidden="true">05</span><h2 id="proj-h">{t('Autres projets', 'Other projects')}</h2></div>
-          <div className="grid projects">
-            {projects.map((p) => (
-              <article className="card proj" key={p.title.fr}>
-                <div className="proj-cover" aria-hidden="true" style={{ ['--h' as string]: p.hue }}>
-                  {p.image ? <img src={p.image} alt="" loading="lazy" /> : <span>{p.icon}</span>}
-                </div>
-                <span className="status">{tr(p.status)}</span>
-                <h3>{tr(p.title)}</h3>
-                <p>{tr(p.text)}</p>
-                <ul className="tags" aria-label="Technologies">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
-                {(p.demo || p.repo) && (
-                  <div className="links">
-                    {p.demo && <a className="btn solid" href={p.demo} target="_blank" rel="noopener noreferrer">{t('Démo', 'Demo')}<span className="sr-only"> : {tr(p.title)}{nw}</span></a>}
-                    {p.repo && <a className="btn line" href={p.repo} target="_blank" rel="noopener noreferrer">{t('Code sur GitHub', 'Code on GitHub')}<span className="sr-only"> : {tr(p.title)}{nw}</span></a>}
-                  </div>
-                )}
-              </article>
             ))}
           </div>
         </section>

@@ -52,10 +52,11 @@ export const jobs: Job[] = [
   {
     role: { fr: 'Développeuse MuleSoft & FullStack SIG', en: 'MuleSoft & Full-stack GIS Developer' }, org: 'Capgemini',
     when: { fr: 'févr. 2024 → août 2024 · stage', en: 'Feb 2024 → Aug 2024 · Internship' },
-    ctx: { fr: "Intégration MuleSoft (migration BizTalk → MuleSoft) et tests d'une application SIG utilisée par les cartographes d'Enedis. Nantes.", en: 'MuleSoft integration (BizTalk → MuleSoft migration) and testing of a GIS application used by Enedis cartographers. Nantes.' },
+    ctx: { fr: "Deux volets : intégration MuleSoft (migration BizTalk → MuleSoft) et développement d'une application SIG (cartographie) utilisée par les cartographes d'Enedis. Nantes.", en: 'Two tracks: MuleSoft integration (BizTalk → MuleSoft migration) and development of a GIS (mapping) application used by Enedis cartographers. Nantes.' },
     points: [
       { text: { fr: "Spécifications d'API (Design Center, Anypoint Exchange), API et batchs sous Anypoint Studio.", en: 'API specifications (Design Center, Anypoint Exchange), APIs and batch jobs in Anypoint Studio.' } },
       { text: { fr: 'Déploiement CloudHub (GitLab CI) et Runtime Fabric (Jenkins), monitoring et dashboards Kibana.', en: 'Deployment to CloudHub (GitLab CI) and Runtime Fabric (Jenkins), monitoring and Kibana dashboards.' } },
+      { text: { fr: "Développement SIG en Java et Angular : évolutions et corrections de l'application cartographique d'Enedis, données géographiques (PostgreSQL / PostGIS).", en: "GIS development in Java and Angular: features and fixes on Enedis's mapping application, geographic data (PostgreSQL / PostGIS)." } },
       { text: { fr: 'Automatisation de tests, tests de non-régression, accompagnement des équipes métier en UAT.', en: 'Test automation, non-regression testing, support for business teams during UAT.' } },
     ],
   },
@@ -94,15 +95,15 @@ export const demos: Demo[] = [
     tags: ['React', 'TypeScript', 'ARIA', 'RGAA'],
   },
   {
-    path: '/galerie', image: '/previews/galerie.jpg', kicker: { fr: 'Performance + accessibilité', en: 'Performance + accessibility' },
-    title: { fr: 'Galerie de 2 000 médias', en: '2,000-item media gallery' },
-    text: { fr: "Médiathèque dans l'esprit d'un DAM : grille virtualisée, recherche, filtres et visionneuse, entièrement navigable au clavier.", en: 'A DAM-style media library: virtualised grid, search, filters and viewer, fully keyboard-navigable.' },
+    path: '/galerie', image: '/previews/galerie.jpg', kicker: { fr: 'Médiathèque DAM', en: 'DAM media library' },
+    title: { fr: 'Médiathèque de 1 788 médias', en: '1,788-item media library' },
+    text: { fr: "Recherche, filtres, tri, vues grille / liste / mosaïque, pagination (10 à 100 par page), sélection multiple et actions : télécharger, panier, partager, recadrer, supprimer.", en: 'Search, filters, sorting, grid / list / mosaic views, pagination (10 to 100 per page), multi-select and actions: download, basket, share, crop, delete.' },
     points: [
-      { fr: '~30 éléments dans le DOM au lieu de 2 000', en: '~30 DOM nodes instead of 2,000' },
-      { fr: 'Navigation aux flèches sur toute la grille', en: 'Arrow-key navigation across the whole grid' },
-      { fr: 'Nombre de résultats annoncé', en: 'Result count announced' },
+      { fr: 'Téléchargement réel en PNG ou ZIP', en: 'Real PNG or ZIP downloads' },
+      { fr: 'Actions groupées sur la sélection', en: 'Bulk actions on the selection' },
+      { fr: 'Suppression avec annulation', en: 'Delete with undo' },
     ],
-    tags: ['React', 'TypeScript', 'Virtualisation'],
+    tags: ['React', 'TypeScript', 'JSZip'],
   },
   {
     path: '/billet', image: '/previews/billet.jpg', kicker: { fr: 'Projet Chillo Tech recréé', en: 'Chillo Tech project, rebuilt' },
@@ -128,7 +129,7 @@ export const demos: Demo[] = [
   },
 ]
 
-export type Project = { status: L; title: L; text: L; tags: string[]; icon: string; hue: number; image?: string; demo?: string; repo?: string }
+export type Project = { status: L; title: L; text: L; tags: string[]; icon: string; hue: number; image?: string; demo?: string; repo?: string; note?: L }
 export const projects: Project[] = [
   { status: { fr: 'exercice technique', en: 'technical exercise' }, title: { fr: 'Explorateur de lieux · API Wemap', en: 'Place explorer · Wemap API' }, icon: '⌖', hue: 200,
     text: { fr: "Recherche de lieux via l'API publique Wemap, liste des résultats et pagination.", en: 'Place search with the public Wemap API, result list and pagination.' }, tags: ['React', 'Vite', 'REST API'],
@@ -140,11 +141,15 @@ export const projects: Project[] = [
     text: { fr: 'Application de gestion de tâches (liste, édition, navigation), réalisée en 2 jours.', en: 'Task management app (list, editing, navigation), built in 2 days.' }, tags: ['React', 'JavaScript'],
     repo: 'https://github.com/Coralistone/test-stage' },
   { status: { fr: 'FindMe', en: 'FindMe' }, title: { fr: 'Cartographie FindMe', en: 'FindMe mapping' }, icon: '◎', hue: 25,
-    text: { fr: "Visualisation des données cartographiques d'adressage et pages du back-office.", en: 'Visualisation of addressing map data and back-office pages.' }, tags: ['React', 'Maps'] },
+    text: { fr: "Visualisation des données cartographiques d'adressage et pages du back-office.", en: 'Visualisation of addressing map data and back-office pages.' }, tags: ['React', 'SVG', 'Maps'], image: '/previews/carte.jpg',
+    demo: '/carte', note: { fr: 'Code d’origine privé (FindMe) · démo recréée', en: 'Original code is private (FindMe) · rebuilt demo' } },
   { status: { fr: 'site web', en: 'website' }, title: { fr: 'Site Chillo Services', en: 'Chillo Services website' }, icon: '◧', hue: 210,
-    text: { fr: 'Conception et développement du site web de Chillo Services.', en: 'Design and development of the Chillo Services website.' }, tags: ['Website'] },
+    text: { fr: 'Conception et développement du site web de Chillo Services.', en: 'Design and development of the Chillo Services website.' }, tags: ['Website'],
+    note: { fr: 'Code privé (propriété de Chillo Services)', en: 'Private code (owned by Chillo Services)' } },
   { status: { fr: 'application web', en: 'web app' }, title: { fr: 'Clone Uber Eats', en: 'Uber Eats clone' }, icon: '🍽', hue: 145,
-    text: { fr: 'Catalogue de restaurants, panier, commande et suivi de livraison.', en: 'Restaurant catalogue, cart, ordering and delivery tracking.' }, tags: ['Web app'] },
-  { status: { fr: 'jeu', en: 'game' }, title: { fr: 'Jeu de dames des couleurs', en: 'Colour checkers game' }, icon: '⛀', hue: 330,
-    text: { fr: 'Jeu de plateau inspiré des dames, construit autour des couleurs : logique de jeu, tours et règles.', en: 'Board game inspired by checkers, built around colours: game logic, turns and rules.' }, tags: ['Game'] },
+    text: { fr: 'Catalogue de restaurants, panier, commande et suivi de livraison.', en: 'Restaurant catalogue, cart, ordering and delivery tracking.' }, tags: ['React', 'TypeScript', 'Web app'], image: '/previews/food.jpg',
+    demo: '/food', note: { fr: 'Code d’origine non publié · démo recréée', en: 'Original code not published · rebuilt demo' } },
+  { status: { fr: 'jeu', en: 'game' }, title: { fr: 'Ludo', en: 'Ludo' }, icon: '🎲', hue: 330,
+    text: { fr: 'Le jeu de plateau à 4 couleurs, de 2 à 4 joueurs, entre amis ou contre l’ordinateur : dé animé, sortie sur un 6, captures, cases protégées.', en: 'The 4-colour board game for 2 to 4 players, with friends or against the computer: animated dice, leave home on a 6, captures, safe squares.' }, tags: ['React', 'TypeScript', 'Game'], image: '/previews/ludo.jpg',
+    demo: '/ludo', note: { fr: 'Code d’origine non publié · démo recréée', en: 'Original code not published · rebuilt demo' } },
 ]

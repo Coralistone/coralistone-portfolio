@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import DemoIntro from '../components/DemoIntro'
 import { LiveRegion } from '../components/a11y'
 import { useLang, useT } from '../i18n'
@@ -29,15 +29,19 @@ export default function Audit() {
   const { lang } = useLang()
   const [html, setHtml] = useState(SAMPLE)
   const [report, setReport] = useState<Report | null>(null)
-  const [target, setTarget] = useState<'html' | 'self' | null>(null)
+  const [target, setTarget] = useState<'html' | 'self' | 'url' | null>(null)
+  const [site, setSite] = useState('https://www.keepeek.com')
+  const [siteHost, setSiteHost] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [siteError, setSiteError] = useState('')
   const frame = useRef<HTMLIFrameElement>(null)
   const result = useRef<HTMLHeadingElement>(null)
 
-  const run = (which: 'html' | 'self') => {
+  const run = (which: 'html' | 'self' | 'url') => {
     const doc = which === 'self' ? document : frame.current?.contentDocument
     if (doc) setReport(globalThis.runA11yAudit(doc, lang))
   }
-  const show = (which: 'html' | 'self') => {
+  const show = (which: 'html' | 'self' | 'url') => {
     setTarget(which); run(which)
     requestAnimationFrame(() => result.current?.focus())
   }
@@ -48,6 +52,28 @@ export default function Audit() {
     const f = frame.current!
     f.onload = () => show('html')
     f.srcdoc = html
+  }
+
+  /** Analyse d'un site en ligne : la page est récupérée par /api/fetch-page, puis rendue sans JavaScript dans un cadre isolé. */
+  const auditUrl = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setSiteError(''); setLoading(true)
+    try {
+      const r = await fetch(`/api/fetch-page?url=${encodeURIComponent(site.trim())}`)
+      const data = await r.json()
+      if (!r.ok) throw new Error(data.error || 'Erreur')
+      const finalUrl = new URL(data.url)
+      setSiteHost(finalUrl.hostname)
+      // <base> pour que les feuilles de style du site se chargent ; scripts retirés (le cadre est de toute façon sans JavaScript)
+      const html = String(data.html).replace(/<script[\s\S]*?<\/script>/gi, '')
+      const withBase = /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, (m) => `${m}<base href="${finalUrl.href}">`) : `<base href="${finalUrl.href}">${html}`
+      const f = frame.current!
+      f.onload = () => setTimeout(() => { setLoading(false); show('url') }, 1200) // laisse le temps aux CSS de s'appliquer
+      f.srcdoc = withBase
+    } catch (err) {
+      setLoading(false)
+      setSiteError(t(`Analyse impossible : ${(err as Error).message}`, `Analysis failed: ${(err as Error).message}`))
+    }
   }
 
   const errors = report?.issues.filter((i) => i.severity === 'erreur') ?? []
@@ -69,15 +95,37 @@ export default function Audit() {
           <>The most common accessibility errors (contrast, images without alt text, unlabelled fields) can be detected automatically. A simple tool catches them before QA and helps track a compliance target.</>,
         )}
         tryIt={t(
-          [<>Cliquez sur « Analyser ce code » : l'exemple contient 11 problèmes volontaires.</>, <>Corrigez une erreur dans le code (ajoutez <code>alt=""</code>, <code>lang="fr"</code>…) et relancez : le score monte.</>, <>Analysez ce portfolio lui-même : 100 / 100.</>],
-          [<>Click “Analyse this code”: the sample contains 11 deliberate issues.</>, <>Fix an error in the code (add <code>alt=""</code>, <code>lang="fr"</code>…) and run it again: the score goes up.</>, <>Analyse this portfolio itself: 100 / 100.</>],
+          [<>Tapez l'adresse d'un site (par exemple celui d'une entreprise) et obtenez son rapport.</>, <>Cliquez sur « Analyser ce code » : l'exemple contient 11 problèmes volontaires.</>, <>Corrigez une erreur dans le code (ajoutez <code>alt=""</code>, <code>lang="fr"</code>…) et relancez : le score monte.</>, <>Analysez ce portfolio lui-même : 100 / 100.</>],
+          [<>Enter a website address (a company's site, for example) and get its report.</>, <>Click “Analyse this code”: the sample contains 11 deliberate issues.</>, <>Fix an error in the code (add <code>alt=""</code>, <code>lang="fr"</code>…) and run it again: the score goes up.</>, <>Analyse this portfolio itself: 100 / 100.</>],
         )}
         under={t(
-          [<>Calcul du contraste selon la formule WCAG, avec la composition des fonds semi-transparents.</>, <>Calcul du nom accessible (aria-labelledby, aria-label, label, contenu).</>, <>Un seul fichier moteur, partagé entre le site et l'extension Chrome (Manifest V3).</>],
-          [<>Contrast computed with the WCAG formula, including blending of semi-transparent backgrounds.</>, <>Accessible name computation (aria-labelledby, aria-label, label, content).</>, <>A single engine file shared by the site and the Chrome extension (Manifest V3).</>],
+          [<>Calcul du contraste selon la formule WCAG, avec la composition des fonds semi-transparents.</>, <>Calcul du nom accessible (aria-labelledby, aria-label, label, contenu).</>, <>Un seul fichier moteur, partagé entre le site et l'extension Chrome (Manifest V3).</>, <>Analyse d'URL : fonction serverless Vercel qui récupère la page (protégée contre les requêtes vers des adresses internes).</>],
+          [<>Contrast computed with the WCAG formula, including blending of semi-transparent backgrounds.</>, <>Accessible name computation (aria-labelledby, aria-label, label, content).</>, <>A single engine file shared by the site and the Chrome extension (Manifest V3).</>, <>URL analysis: a Vercel serverless function fetches the page (protected against requests to internal addresses).</>],
         )}
         stack={['TypeScript', 'WCAG 2.1', 'RGAA 4.1', 'Chrome Extension MV3']}
       />
+
+      <section className="demo-section" aria-labelledby="u-h">
+        <div className="wrap">
+          <h2 id="u-h">{t('Analyser un site en ligne', 'Analyse a live website')}</h2>
+          <p>{t("Tapez l'adresse d'un site : sa page est récupérée puis analysée en quelques secondes.", "Enter a website address: the page is fetched and analysed in a few seconds.")}</p>
+          <form className="stage url-form" onSubmit={auditUrl} noValidate>
+            <div className="ax-field" style={{ margin: 0, flex: '1 1 320px' }}>
+              <label htmlFor="u-site">{t('Adresse du site', 'Website address')}</label>
+              <input id="u-site" type="url" inputMode="url" autoComplete="url" value={site} onChange={(e) => setSite(e.target.value)}
+                placeholder="https://www.exemple.fr" aria-describedby="u-help" aria-invalid={siteError ? true : undefined} />
+            </div>
+            <button type="submit" className="ax-btn" disabled={loading} aria-busy={loading}>
+              {loading ? t('Analyse en cours…', 'Analysing…') : t('Analyser le site', 'Analyse website')}
+            </button>
+            <p id="u-help" className="url-help">{t(
+              'Analyse la page telle que le serveur la renvoie, sans exécuter son JavaScript : un site construit entièrement en JavaScript peut être analysé partiellement.',
+              'Analyses the page as the server returns it, without running its JavaScript: a fully JavaScript-rendered site may be partially analysed.',
+            )}</p>
+            {siteError && <p role="alert" className="ax-error" style={{ flexBasis: '100%' }}>{siteError}</p>}
+          </form>
+        </div>
+      </section>
 
       <section className="demo-section" aria-labelledby="a-h">
         <div className="wrap">
@@ -105,7 +153,7 @@ export default function Audit() {
         <section className="demo-section" aria-labelledby="r-h">
           <div className="wrap">
             <h2 id="r-h" ref={result} tabIndex={-1} style={{ outline: 'none' }}>
-              {target === 'self' ? t('Rapport pour cette page', 'Report for this page') : t('Rapport pour le code HTML saisi', 'Report for the HTML code')}
+              {target === 'self' ? t('Rapport pour cette page', 'Report for this page') : target === 'url' ? t(`Rapport pour ${siteHost}`, `Report for ${siteHost}`) : t('Rapport pour le code HTML saisi', 'Report for the HTML code')}
             </h2>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: 20 }}>
               <div className="card"><p className="kicker">Score</p><b style={{ fontFamily: 'var(--display)', fontSize: 34, color: tone }}>{report.score}<span style={{ fontSize: 18 }}> / 100</span></b></div>

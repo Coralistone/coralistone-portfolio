@@ -9,7 +9,10 @@ Portfolio et démos de **Coralistone Mikam**, Product Engineer Frontend React sp
 | `/composants` | Kit de composants React accessibles : modale (focus piégé, inert), onglets (roving tabindex), menu d'actions, formulaire avec validation accessible |
 | `/galerie` | Galerie de 2 000 médias virtualisée, navigable au clavier, filtres et visionneuse, annonces pour lecteur d'écran |
 | `/billet` | Recréation de Zeeven : billets d'invitation à QR code nominatif, gestion des tables et des VIP, accueil des invités |
-| `/audit` | Moteur d'audit RGAA automatisé (contrastes, alternatives, titres, étiquettes, liens, boutons) + extension Chrome |
+| `/carte` | Recréation du travail FindMe : carte SVG d'adresses numériques + back-office (recherche, filtres, validation). Données fictives |
+| `/food` | Clone Uber Eats : restaurants, filtres, menu, panier, commande et suivi de livraison |
+| `/ludo` | Ludo de 2 à 4 joueurs (amis ou ordinateur) : configuration, règles, dé animé, sortie sur un 6, captures, cases protégées, IA |
+| `/audit` | Moteur d'audit RGAA automatisé (contrastes, alternatives, titres, étiquettes, liens, boutons), analyse d'un site par son URL (fonction serverless) + extension Chrome |
 
 ## Stack
 
